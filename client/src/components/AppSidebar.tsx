@@ -5,16 +5,15 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className=" backdrop-blur-2xl border-r border-white/5 ">
       <SidebarHeader>
         <h1>Side bar header</h1>
       </SidebarHeader>
-      <SidebarContent className="bg-green-300">
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Sidebar Group Label</SidebarGroupLabel>
         </SidebarGroup>
@@ -23,7 +22,6 @@ export function AppSidebar() {
       <SidebarFooter>
         <h1>Sidebar Footer</h1>
       </SidebarFooter>
-      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }
