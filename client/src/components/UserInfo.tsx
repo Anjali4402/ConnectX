@@ -4,7 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 
 const UserInfo = () => {
   return (
-    <div className="p-4 border-t border-white/5">
+    <div className="pt-4 pb-1 border-t border-white/5">
       <div className="flex items-center gap-3 p-2 bg-white/5 rounded-full ">
         <Image
           //   src="/profile.png"
@@ -21,16 +21,14 @@ const UserInfo = () => {
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQkjY3wR3_MobHadKfV7Td3YKkcV4pCYlobnz56Qp8IC999yjUS_u2jD7wBarNP-lJ9VpYS-RRB_O8fjVk72USwpRdCnYxn4Wi7vb-TZ4KLCAi_vwgQc739ZQC5ZWGJeN1zVmdncUzr3FZqHKv-JgnHKmnW_9vNE_HIi5eAtnOLvDb_jZRgvpCp23soIGA_zIj4NWQWy2rr5_mWTQtzvJHxnS72ws7RoPTsPv338c3PVMRYMxBJv843eK9igj2BQP3TLbbLtUW_GI"
             /> */}
         <div className="flex-1 overflow-hidden">
-          <p className="font-label-md text-label-md text-on-surface truncate">
-            Alex Rivera
-          </p>
+          <p className="text-sm text-on-surface truncate">Alex Rivera</p>
           <p className="text-[10px] text-on-surface-variant truncate">
             alex@luminal.io
           </p>
         </div>
         <button className="p-1 text-on-surface-variant hover:text-primary transition-colors">
           {/* <span className="material-symbols-outlined text-[20px]">logout</span> */}
-          <FiLogOut className=" size-5" />
+          <FiLogOut className=" size-4" />
         </button>
       </div>
     </div>
