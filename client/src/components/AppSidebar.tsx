@@ -14,7 +14,7 @@ import Image from "next/image";
 
 export function AppSidebar() {
   return (
-    <Sidebar className=" backdrop-blur-2xl border-r border-white/5  w-105">
+    <Sidebar className=" backdrop-blur-2xl border-r border-white/5">
       <SidebarHeader className="border-b border-white/5 mb-4 ">
         <div className="flex items-center gap-2 ml-4 ">
           <Image
