@@ -1,7 +1,11 @@
-import React from "react";
+import ChatPage from "@/components/Chat/ChatPage";
 
-const page = () => {
-  return <div>My home page for rider</div>;
+const Home = () => {
+  return (
+    <div className="bg-red-300s sp-4 w-full h-full  flex justify-center  items-center">
+      <ChatPage />
+    </div>
+  );
 };
 
-export default page;
+export default Home;

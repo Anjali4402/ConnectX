@@ -267,3 +267,20 @@
 .floating-element {
   animation: float 6s ease-in-out infinite;
 }
+
+/* Chat screen UI */
+.glass-panel-2 {
+  background: rgba(21, 32, 49, 0.6);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+.message-bubble-in {
+  background: rgba(42, 53, 72, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px 16px 16px 4px;
+}
+.message-bubble-out {
+  background: linear-gradient(135deg, #8083ff 0%, #494bd6 100%);
+  border-radius: 16px 16px 4px 16px;
+  box-shadow: 0 4px 15px rgba(128, 131, 255, 0.3);
+}
