@@ -4,11 +4,11 @@ import { FaArrowRight } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { MdAddAPhoto, MdOutlineEdit } from "react-icons/md";
 import Image from "next/image";
-import { Checkbox } from "./ui/checkbox";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
+import { Button } from "../../components/ui/button";
+import { Label } from "../../components/ui/label";
 
 interface CreateUpdateGroupProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -124,7 +124,7 @@ const CreateUpdateGroup = ({ setOpen }: CreateUpdateGroupProps) => {
                     width={44}
                     height={44}
                   />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#152031]"></div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-surface-container"></div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-on-surface">
@@ -151,7 +151,7 @@ const CreateUpdateGroup = ({ setOpen }: CreateUpdateGroupProps) => {
                     width={44}
                     height={44}
                   />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 rounded-full border-2 border-[#152031]"></div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 rounded-full border-2 border-surface-container"></div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-on-surface">
@@ -171,10 +171,10 @@ const CreateUpdateGroup = ({ setOpen }: CreateUpdateGroupProps) => {
             <label className="flex items-center justify-between p-3 rounded-2xl hover:bg-white/5 cursor-pointer transition-all group">
               <div className="flex items-center gap-4">
                 <div className="relative">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-xs">
+                  <div className="w-11 h-11 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-xs">
                     JM
                   </div>
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#152031]"></div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-surface-container"></div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-on-surface">

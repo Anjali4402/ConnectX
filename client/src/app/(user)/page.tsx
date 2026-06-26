@@ -1,6 +1,6 @@
 "use client";
 // import ChatPage from "@/components/Chat/ChatPage";
-import CreateUpdateGroup from "@/components/CreateUpdateGroup";
+import CreateUpdateGroup from "@/features/group/CreateUpdateGroup";
 import StartNewChat from "@/components/StartNewChat";
 import { ModalLayout } from "@/components/ui/shared/ModalLayout";
 import { useState } from "react";

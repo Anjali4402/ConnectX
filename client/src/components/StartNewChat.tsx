@@ -2,8 +2,6 @@
 import { X } from "lucide-react";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./ui/button";
-import { FaArrowRight } from "react-icons/fa6";
-import { RiSendPlane2Line } from "react-icons/ri";
 import { IoMdSend } from "react-icons/io";
 import Image from "next/image";
 import { IoSearch } from "react-icons/io5";
@@ -50,10 +48,10 @@ const UserList = ({ users, onUserSelect, selectedUser }: UserListProps) => {
             key={user.id}
             onClick={() => onUserSelect?.(user.id)}
             className={cn(
-              "w-full flex items-center gap-4 p-3 rounded-2xl text-left group transition-all",
+              "w-full flex items-center gap-4 p-3 rounded-2xl text-left group transition-all border border-transparent cursor-pointer",
               //   user.selected
-              user.id === selectedUser.id
-                ? "bg-primary/10 border border-primary/20"
+              user.id === selectedUser?.id
+                ? "bg-primary/10 border-primary/20"
                 : "hover:bg-white/5",
             )}
           >
@@ -63,7 +61,7 @@ const UserList = ({ users, onUserSelect, selectedUser }: UserListProps) => {
                 <Image
                   className={cn(
                     "w-12 h-12 rounded-full object-cover transition-all",
-                    user.id === selectedUser.id
+                    user.id === selectedUser?.id
                       ? "ring-2 ring-primary"
                       : "ring-2 ring-white/10 group-hover:ring-primary/50",
                   )}
@@ -214,7 +212,7 @@ const StartNewChat = ({ setOpen }: StartNewChatProps) => {
       </div>
 
       {/* Footer Actions */}
-      <div className="p-8 border-t border-white/5 flex justify-end gap-4">
+      <div className="px-8 py-4 border-t border-white/5 flex justify-end gap-4">
         <Button
           variant="ghost"
           className="px-6 py-5 rounded-2xl bg-white/5 hover:bg-white/10 text-on-surface font-semibold active:scale-95  cursor-pointer"
