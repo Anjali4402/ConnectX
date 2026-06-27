@@ -3,36 +3,27 @@
 import CreateUpdateGroup from "@/features/group/CreateUpdateGroup";
 import StartNewChat from "@/components/StartNewChat";
 import { ModalLayout } from "@/components/ui/shared/ModalLayout";
-import { useState } from "react";
+import useAppStore from "@/store/app.store";
 
 const Home = () => {
-  const [openGroupModal, setOpenGroupModal] = useState(false);
-  const [startNewChatModal, setStartNewChatModal] = useState(false);
+  const {
+    isOpenNewChat,
+    isOpenCreateGroup,
+    openNewChatToogle,
+    openCreateGroupToogle,
+  } = useAppStore();
 
   return (
     <div className="w-full h-full  flex justify-center  items-center">
       {/* <ChatPage /> */}
-      <button
-        onClick={() => {
-          setOpenGroupModal(true);
-        }}
-      >
-        Open Create Modal
-      </button>
 
-      <button
-        onClick={() => {
-          setStartNewChatModal(true);
-        }}
-      >
-        Start new chat
-      </button>
+      <h1 className="text-white text-3xl">Chat main page</h1>
 
-      <ModalLayout open={openGroupModal} setOpen={setOpenGroupModal}>
-        <CreateUpdateGroup setOpen={setOpenGroupModal} />
+      <ModalLayout open={isOpenNewChat} setOpen={openNewChatToogle}>
+        <StartNewChat setOpen={openNewChatToogle} />
       </ModalLayout>
-      <ModalLayout open={startNewChatModal} setOpen={setStartNewChatModal}>
-        <StartNewChat setOpen={setStartNewChatModal} />
+      <ModalLayout open={isOpenCreateGroup} setOpen={openCreateGroupToogle}>
+        <CreateUpdateGroup setOpen={openCreateGroupToogle} />
       </ModalLayout>
     </div>
   );
