@@ -10,7 +10,10 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 interface StartNewChatProps {
-  setOpen: () => void; // Dispatch<SetStateAction<boolean>>;
+  // setOpen: (vals: boolean) => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  //  Dispatch<SetStateAction<boolean>>;
 }
 
 interface User {
@@ -199,7 +202,7 @@ const StartNewChat = ({ setOpen }: StartNewChatProps) => {
           </p>
         </div>
         <button
-          onClick={() => setOpen()}
+          onClick={() => setOpen(false)}
           className="p-2 rounded-full hover:bg-white/10 text-on-surface-variant active:scale-95 transition-all cursor-pointer"
         >
           <X className="h-5 w-5" />

@@ -11,7 +11,8 @@ import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 
 interface CreateUpdateGroupProps {
-  setOpen: () => void; // Dispatch<SetStateAction<boolean>>;
+  // setOpen: (vals: boolean) => Dispatch<SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CreateUpdateGroup = ({ setOpen }: CreateUpdateGroupProps) => {
@@ -25,7 +26,7 @@ const CreateUpdateGroup = ({ setOpen }: CreateUpdateGroupProps) => {
           </h2>
         </div>
         <button
-          onClick={() => setOpen()}
+          onClick={() => setOpen(false)}
           className="p-2 rounded-full hover:bg-white/10 text-on-surface-variant active:scale-95 transition-all cursor-pointer"
         >
           <X className="h-5 w-5" />

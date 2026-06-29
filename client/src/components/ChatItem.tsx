@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const ChatItem = () => {
   return (
-    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 cursor-pointer group transition-all">
+    <Link
+      href={`/conversations/343434`}
+      className="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 cursor-pointer group transition-all"
+    >
       <div className="relative shrink-0">
         <Image
           alt="Sarah"
@@ -23,7 +27,7 @@ const ChatItem = () => {
           <span className="text-[11px] text-on-surface-variant">12:45 PM</span>
         </div>
         <p className="text-body-md text-on-surface-variant truncate font-medium">
-          I've attached the final design specs for the Luminal project...
+          I&apos;ve attached the final design specs for the Luminal project...
         </p>
       </div>
       <div className="flex flex-col items-end gap-2">
@@ -31,7 +35,7 @@ const ChatItem = () => {
           <span className="text-[10px] font-bold text-on-primary">3</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
