@@ -12,7 +12,7 @@ export function ModalLayout({ open, setOpen, children }: ModalLayoutProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         className=" w-full md:max-w-3xl bg-[#081425] rounded-[32px] [&>button]:hidden p-0
-      glass-morphism min-h-[60vh] h-fit  shadow-2xl  overflow-hidden"
+      glass-morphism min-h-[60vh] h-fit  shadow-2xl  overflow-hidden max-h-[90vh] overflow-y-auto"
       >
         {children}
       </DialogContent>

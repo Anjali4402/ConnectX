@@ -1,7 +1,6 @@
 import ProfileHeader from "./ProfileHeader";
 import AccountSettings from "./AccountSettings";
 import ConnectedGroups from "./ConnectedGroups";
-import SecurityStatus from "./SecurityStatus";
 const ProfileManagement = () => {
   return (
     <div className="w-full space-y-10 px-4 py-10 max-w-4xl mx-auto">
@@ -13,8 +12,6 @@ const ProfileManagement = () => {
           <ConnectedGroups />
         </div>
       </div>
-
-      <SecurityStatus />
     </div>
   );
 };
