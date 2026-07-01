@@ -8,7 +8,7 @@ const Logo = () => {
         width={38}
         height={38}
         className="rounded-full border-2 border-primary/20 "
-        alt="Picture of the author"
+        alt="Lo"
       />
 
       <span className="text-lg text-primary tracking-tighter font-bold">
