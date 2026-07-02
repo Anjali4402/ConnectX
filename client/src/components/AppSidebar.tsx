@@ -44,8 +44,8 @@ export function AppSidebar() {
           <ChatList />
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <UserInfo />
+      <SidebarFooter className="px-0">
+        <UserInfo role="user" />
       </SidebarFooter>
     </Sidebar>
   );

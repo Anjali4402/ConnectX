@@ -29,6 +29,7 @@ interface User {
 interface UserListProps {
   users: User[];
   onUserSelect?: (userId: string) => void;
+  selectedUser?: User | null;
 }
 
 const UserList = ({ users, onUserSelect, selectedUser }: UserListProps) => {
@@ -178,7 +179,7 @@ const UserListExample = () => {
   const handleUserSelect = (userId: string) => {
     const selectUser = users.find((user) => user.id === userId);
 
-    setSelectedUser(selectUser);
+    setSelectedUser(selectUser || null);
   };
 
   return (
