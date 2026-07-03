@@ -284,3 +284,17 @@
   border-radius: 16px 16px 4px 16px;
   box-shadow: 0 4px 15px rgba(128, 131, 255, 0.3);
 }
+
+/* Admin login page */
+
+.glass-panel-3 {
+  background: rgba(17, 28, 45, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.aether-glow {
+  box-shadow:
+    0 0 20px rgba(192, 193, 255, 0.1),
+    inset 0 0 12px rgba(192, 193, 255, 0.05);
+}
