@@ -11,8 +11,7 @@ const ChatPage = () => {
   return (
     <div className="flex h-screen overflow-hidden w-full ">
       <main className="flex flex-col flex-1 min-w-0 w-full ">
-        <ChatHeader />
-
+        <ChatHeader setOpenChatInfo={setOpenChatInfo} />
         <div className="flex-1 overflow-y-auto p-4">
           <ChatContent />
         </div>
