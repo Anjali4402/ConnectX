@@ -3,6 +3,7 @@ import userModal from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/hashPassword.js";
 import { comparePassword } from "../utils/comparePassword.js";
+import mongoose from "mongoose";
 
 interface RegisterBody {
   username: string;
@@ -12,7 +13,12 @@ interface RegisterBody {
   avatar?: string;
 }
 
-async function loginController(req: Request, res: Response) {
+interface LoginBody {
+  usernameOrEmail: string;
+  password: string;
+}
+
+async function loginController(req: Request<{}, {}, LoginBody>, res: Response) {
   try {
     // get values from request
     const { usernameOrEmail, password } = req.body;
@@ -45,12 +51,18 @@ async function loginController(req: Request, res: Response) {
     }
 
     // Generate new JWT token
+    const JWT_SECRET = process.env.JWT_SECRET;
+
+    if (!JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined");
+    }
+
     let token;
     try {
-      token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
         expiresIn: "3d",
       });
-    } catch (error) {
+    } catch (error: unknown) {
       return res.status(500).json({
         success: false,
         data: null,
@@ -61,9 +73,9 @@ async function loginController(req: Request, res: Response) {
     // send token in cookies
 
     res.cookie("token", token, {
-      // sameSite: "strict",
-      // secure: true,
-      // httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      httpOnly: true,
       maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
     });
 
@@ -72,8 +84,9 @@ async function loginController(req: Request, res: Response) {
       data: null,
       message: "User Registered Successfully!",
     });
-  } catch (error) {
-    if (error.name === "ValidationError") {
+  } catch (error: unknown) {
+    // if (error.name === "ValidationError") {
+    if (error instanceof mongoose.Error.ValidationError) {
       const firstError = Object.values(error.errors)[0];
 
       return res.status(400).json({
@@ -92,7 +105,10 @@ async function loginController(req: Request, res: Response) {
   });
 }
 
-async function registerController(req: Request, res: Response) {
+async function registerController(
+  req: Request<{}, {}, RegisterBody>,
+  res: Response,
+) {
   try {
     // Destructuring request data.
     const { username, email, password, bio, avatar } = req.body;
@@ -136,9 +152,16 @@ async function registerController(req: Request, res: Response) {
     });
 
     /// JWt added
+
+    const JWT_SECRET = process.env.JWT_SECRET;
+
+    if (!JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined");
+    }
+
     let token;
     try {
-      token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
         expiresIn: "3d",
       });
     } catch (error) {
@@ -152,9 +175,9 @@ async function registerController(req: Request, res: Response) {
     // send jwt token in the cookies
 
     res.cookie("token", token, {
-      // sameSite: "strict",
-      // secure: true,
-      // httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      httpOnly: true,
       maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
     });
 
@@ -163,10 +186,10 @@ async function registerController(req: Request, res: Response) {
       data: user,
       message: "User Registered Successfully!",
     });
-  } catch (error) {
-    const firstError = Object.values(error.errors)[0];
+  } catch (error: unknown) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      const firstError = Object.values(error.errors)[0];
 
-    if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
         data: null,
