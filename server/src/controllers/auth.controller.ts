@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import userModal from "../models/user.model.js";
-import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/hashPassword.js";
 import { comparePassword } from "../utils/comparePassword.js";
 import mongoose from "mongoose";
+import AppError from "../errors/AppError.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
+import { generateAccessToken } from "../utils/jwt.js";
+import { setAuthCookie } from "../utils/cookies.js";
 
 interface RegisterBody {
   username: string;
@@ -18,9 +21,8 @@ interface LoginBody {
   password: string;
 }
 
-async function loginController(req: Request<{}, {}, LoginBody>, res: Response) {
-  try {
-    // get values from request
+const loginController = asyncHandler(
+  async (req: Request<{}, {}, LoginBody>, res: Response) => {
     const { usernameOrEmail, password } = req.body;
 
     // find by username or email
@@ -32,78 +34,31 @@ async function loginController(req: Request<{}, {}, LoginBody>, res: Response) {
 
     // if user is not exist
     if (!user) {
-      return res.status(401).json({
-        success: false,
-        data: null,
-        message: "User not exist.",
-      });
+      // throw new AppError("User not exist", 401);
+      throw new AppError("Invalid username or password", 401);
     }
 
     // compare and verify the password.
     const isValidPassword = await comparePassword(password, user.password);
 
     if (!isValidPassword) {
-      return res.status(401).json({
-        success: false,
-        data: null,
-        message: "Invalid password, please try again.",
-      });
+      throw new AppError("Invalid username or password", 401);
     }
 
     // Generate new JWT token
-    const JWT_SECRET = process.env.JWT_SECRET;
-
-    if (!JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined");
-    }
-
-    let token;
-    try {
-      token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
-        expiresIn: "3d",
-      });
-    } catch (error: unknown) {
-      return res.status(500).json({
-        success: false,
-        data: null,
-        message: "Failed to process the request",
-      });
-    }
+    const token = generateAccessToken(user.id);
 
     // send token in cookies
 
-    res.cookie("token", token, {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-      httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-    });
+    setAuthCookie(res, token);
 
     return res.status(201).json({
       success: true,
       data: null,
       message: "User Registered Successfully!",
     });
-  } catch (error: unknown) {
-    // if (error.name === "ValidationError") {
-    if (error instanceof mongoose.Error.ValidationError) {
-      const firstError = Object.values(error.errors)[0];
-
-      return res.status(400).json({
-        success: false,
-        data: null,
-        message: error.message.split(":")[0],
-        error: firstError.message,
-      });
-    }
-  }
-
-  return res.status(500).json({
-    success: false,
-    data: null,
-    message: "Internal server error",
-  });
-}
+  },
+);
 
 async function registerController(
   req: Request<{}, {}, RegisterBody>,
@@ -152,34 +107,37 @@ async function registerController(
     });
 
     /// JWt added
+    const token = await generateAccessToken(user._id.toString());
 
-    const JWT_SECRET = process.env.JWT_SECRET;
+    // const JWT_SECRET = process.env.JWT_SECRET;
 
-    if (!JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined");
-    }
+    // if (!JWT_SECRET) {
+    //   throw new Error("JWT_SECRET is not defined");
+    // }
 
-    let token;
-    try {
-      token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
-        expiresIn: "3d",
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        data: null,
-        message: "Failed to process the request",
-      });
-    }
+    // let token;
+    // try {
+    //   token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
+    //     expiresIn: "3d",
+    //   });
+    // } catch (error) {
+    //   return res.status(500).json({
+    //     success: false,
+    //     data: null,
+    //     message: "Failed to process the request",
+    //   });
+    // }
 
     // send jwt token in the cookies
 
-    res.cookie("token", token, {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-      httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-    });
+    // res.cookie("token", token, {
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+    //   httpOnly: true,
+    //   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+    // });
+
+    setAuthCookie(res, token);
 
     return res.status(201).json({
       success: true,
