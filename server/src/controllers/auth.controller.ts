@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import userModal from "../models/user.model.js";
-import { hashPassword } from "../utils/hashPassword.js";
 import { comparePassword } from "../utils/comparePassword.js";
 import mongoose from "mongoose";
 import AppError from "../errors/AppError.js";
@@ -55,18 +54,15 @@ const loginController = asyncHandler(
     return res.status(201).json({
       success: true,
       data: null,
-      message: "User Registered Successfully!",
+      message: "User Login Successfully!",
     });
   },
 );
 
-async function registerController(
-  req: Request<{}, {}, RegisterBody>,
-  res: Response,
-) {
-  try {
+const registerController = asyncHandler(
+  async (req: Request<{}, {}, RegisterBody>, res: Response) => {
     // Destructuring request data.
-    const { username, email, password, bio, avatar } = req.body;
+    const { username, email, password } = req.body;
 
     // Check weather user already exist or not. (based on email and username)
     const existingUser = await userModal.findOne({
@@ -75,92 +71,35 @@ async function registerController(
 
     // If user already exist then return the message.
     if (existingUser) {
-      return res.status(409).json({
-        success: false,
-        data: null,
-        message:
-          existingUser.email === email
-            ? "Email is already registered."
-            : "Username is already taken.",
-      });
-    }
-
-    // hash user password
-    let hashedPassword;
-    try {
-      hashedPassword = await hashPassword(password);
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        data: null,
-        message: "Failed to process the request",
-      });
+      throw new AppError(
+        existingUser.email === email
+          ? "Email is already registered."
+          : "Username is already taken.",
+        409,
+      );
     }
 
     // Create User
     const user = await userModal.create({
       username,
       email,
-      password: hashedPassword,
-      bio,
-      avatar,
+      password,
     });
 
     /// JWt added
-    const token = await generateAccessToken(user._id.toString());
-
-    // const JWT_SECRET = process.env.JWT_SECRET;
-
-    // if (!JWT_SECRET) {
-    //   throw new Error("JWT_SECRET is not defined");
-    // }
-
-    // let token;
-    // try {
-    //   token = await jwt.sign({ userId: user._id }, JWT_SECRET, {
-    //     expiresIn: "3d",
-    //   });
-    // } catch (error) {
-    //   return res.status(500).json({
-    //     success: false,
-    //     data: null,
-    //     message: "Failed to process the request",
-    //   });
-    // }
-
-    // send jwt token in the cookies
-
-    // res.cookie("token", token, {
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-    //   httpOnly: true,
-    //   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-    // });
+    const token = generateAccessToken(user._id.toString());
 
     setAuthCookie(res, token);
 
     return res.status(201).json({
       success: true,
-      data: user,
+      data: {
+        username,
+        email,
+      },
       message: "User Registered Successfully!",
     });
-  } catch (error: unknown) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      const firstError = Object.values(error.errors)[0];
-
-      return res.status(400).json({
-        success: false,
-        data: null,
-        message: error.message.split(":")[0],
-        error: firstError.message,
-      });
-    }
-  }
-
-  return res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-  });
-}
+  },
+);
 
 export { loginController, registerController };
