@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import AppError from "../errors/AppError.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { generateAccessToken } from "../utils/jwt.js";
-import { setAuthCookie } from "../utils/cookies.js";
+import { clearAuthCookie, setAuthCookie } from "../utils/cookies.js";
 
 interface RegisterBody {
   username: string;
@@ -102,4 +102,17 @@ const registerController = asyncHandler(
   },
 );
 
-export { loginController, registerController };
+const logoutController = asyncHandler(
+  async (req: Request<{}, {}, RegisterBody>, res: Response) => {
+    // Currently just clearing the cookies
+    clearAuthCookie(res);
+
+    res.status(201).json({
+      success: true,
+      message: "User logout successfully!",
+      data: null,
+    });
+  },
+);
+
+export { loginController, registerController, logoutController };

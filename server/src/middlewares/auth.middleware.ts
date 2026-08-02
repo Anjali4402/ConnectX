@@ -13,7 +13,7 @@ const authMiddleware = async (
 
   // Throw error if token is not available
   if (!token) {
-    throw new AppError("Access denied. Token missing.", 401);
+    return next(new AppError("Access denied. Token missing.", 401));
   }
 
   // Decode the token.
