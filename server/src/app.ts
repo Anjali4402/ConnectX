@@ -10,14 +10,20 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser()); // read the cookies
 // connect database
 connectDB();
 
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/users", userRoute);
+app.use("/app/v1/auth", authRoute);
+app.use("/app/v1/users", userRoute);
 
 app.use((err: Error, req: Request, res: Response, next) => {
   res.status(err.statusCode || 500).json({
