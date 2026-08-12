@@ -5,10 +5,13 @@ class AppError extends Error {
   constructor(message: string, statusCode: number) {
     super(message);
 
+    this.name = "AppError";
     this.statusCode = statusCode;
     this.success = false;
 
-    Error.captureStackTrace(this, this.constructor);
+    Object.setPrototypeOf(this, AppError.prototype);
+
+    Error.captureStackTrace(this, AppError);
   }
 }
 
