@@ -13,7 +13,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import Logo from "@/components/ui/shared/Logo";
-import UserInfo from "@/components/UserInfo";
+import UserInfo from "@/features/profile/components/UserInfo";
 
 export default function AdminDashboardLayout({
   children,

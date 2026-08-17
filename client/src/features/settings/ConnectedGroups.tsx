@@ -1,6 +1,11 @@
 import { Users, Layout, ChevronRight, LogOut } from "lucide-react";
+import React from "react";
 
-const ConnectedGroups = () => {
+interface ConnectGroupsProps {
+  handleLogout: () => void;
+}
+
+const ConnectedGroups: React.FC<ConnectGroupsProps> = ({ handleLogout }) => {
   const groups = [
     {
       id: 1,
@@ -54,9 +59,12 @@ const ConnectedGroups = () => {
       </div>
 
       <div className="mt-6 pt-6 border-t border-white/10">
-        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors rounded-xl text-sm">
+        <button
+          onClick={() => handleLogout()}
+          className=" cursor-pointer w-full flex items-center justify-center gap-2 py-3 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors rounded-xl text-sm"
+        >
           <LogOut className=" size-4" />
-          Log out of Luminal
+          Log out of ConnectX
         </button>
       </div>
     </div>

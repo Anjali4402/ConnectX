@@ -1,13 +1,21 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaExpandAlt } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { ModalLayout } from "./ui/shared/ModalLayout";
-import ProfileManagement from "@/features/settings/ProfileManagement";
+import { ModalLayout } from "../../../components/ui/shared/ModalLayout";
+import ProfileManagement from "@/features/profile/components/ProfileManagement";
+import { useGetProfile } from "../hook/useProfile";
+import { Profile } from "../types";
 
 const UserInfo = ({ role }: { role: "admin" | "user" }) => {
   const [isEditProfile, setIsEditProfile] = useState(false);
+
+  const {
+    data: profileData,
+    isPending: isPendingData,
+    isError,
+  } = useGetProfile();
 
   return (
     <>
@@ -22,9 +30,11 @@ const UserInfo = ({ role }: { role: "admin" | "user" }) => {
           />
 
           <div className="flex-1 overflow-hidden">
-            <p className="text-sm text-on-surface truncate">Alex Rivera</p>
+            <p className="text-sm text-on-surface truncate">
+              {profileData?.username}
+            </p>
             <p className="text-[10px] text-on-surface-variant truncate">
-              alex@luminal.io
+              {profileData?.email}
             </p>
           </div>
           {role === "user" ? (

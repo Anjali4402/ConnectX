@@ -5,7 +5,7 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import UserInfo from "./UserInfo";
+import UserInfo from "../features/profile/components/UserInfo";
 import Searchbar from "./Searchbar";
 import CreateChatSection from "./CreateChatSection";
 import NavigationBar from "./NavigationBar";

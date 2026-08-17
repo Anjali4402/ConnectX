@@ -1,4 +1,4 @@
-import ProfileManagement from "@/features/settings/ProfileManagement";
+import ProfileManagement from "@/features/profile/components/ProfileManagement";
 
 export default function Setting() {
   return <ProfileManagement />;
