@@ -7,6 +7,8 @@ export interface IChat extends Document {
 
   members: Types.ObjectId[];
 
+  description?: string;
+
   groupName?: string;
 
   groupImage?: string;
@@ -44,6 +46,8 @@ const ChatSchema = new Schema<IChat>(
     ],
 
     groupName: String,
+
+    description: String,
 
     groupImage: String,
 

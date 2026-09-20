@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-// import AppError from "../utils/AppError";
 import AppError from "./AppError.js";
 
 const errorHandler = (
@@ -19,7 +18,7 @@ const errorHandler = (
 
   return res.status(500).json({
     success: false,
-    message: "Internal Server Error",
+    message: err.message,
   });
 };
 

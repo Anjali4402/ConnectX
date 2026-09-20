@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDB from "./services/db.js";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/user.js";
+import chatRoute from "./routes/chat.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { Error } from "mongoose";
@@ -25,6 +26,7 @@ connectDB();
 
 app.use("/app/v1/auth", authRoute);
 app.use("/app/v1/users", userRoute);
+app.use("/app/v1/chats", chatRoute);
 
 app.use(errorHandler);
 
