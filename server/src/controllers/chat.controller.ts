@@ -21,8 +21,8 @@ const newGroupChat = asyncHandler(async (req: Request, res: Response) => {
   await Chat.create({
     type: "group",
     members: allMembers,
-    groupName: name,
-    groupImage: avatar,
+    name: name,
+    avatar: avatar,
     description,
     createdBy: req.user,
   });

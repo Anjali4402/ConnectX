@@ -2,6 +2,11 @@ import { Schema, model, Types, Document } from "mongoose";
 
 export type ChatType = "single" | "group";
 
+interface AvatarType {
+  public_id: string;
+  url: string;
+}
+
 export interface IChat extends Document {
   type: ChatType;
 
@@ -9,9 +14,9 @@ export interface IChat extends Document {
 
   description?: string;
 
-  groupName?: string;
+  name?: string;
 
-  groupImage?: string;
+  avatar?: AvatarType;
 
   createdBy?: Types.ObjectId;
 
@@ -45,11 +50,18 @@ const ChatSchema = new Schema<IChat>(
       },
     ],
 
-    groupName: String,
+    name: String,
 
     description: String,
 
-    groupImage: String,
+    avatar: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
 
     createdBy: {
       type: Schema.Types.ObjectId,
