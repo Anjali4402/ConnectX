@@ -13,6 +13,7 @@ interface RegisterBody {
   password: string;
   bio?: string;
   avatar?: string;
+  name: string;
 }
 
 interface LoginBody {
@@ -62,7 +63,7 @@ const loginController = asyncHandler(
 const registerController = asyncHandler(
   async (req: Request<{}, {}, RegisterBody>, res: Response) => {
     // Destructuring request data.
-    const { username, email, password } = req.body;
+    const { username, email, password, name } = req.body;
 
     // Check weather user already exist or not. (based on email and username)
     const existingUser = await userModal.findOne({
@@ -84,6 +85,7 @@ const registerController = asyncHandler(
       username,
       email,
       password,
+      name,
     });
 
     /// JWt added
