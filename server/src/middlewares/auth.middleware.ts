@@ -25,13 +25,13 @@ const authMiddleware = async (
   }
 
   // GET user
-  const user = await userModel.findById(decoded?.userId);
-  if (!user) {
-    throw new AppError("User not found.", 401);
-  }
+  // const user = await userModel.findById(decoded?.userId);
+  // if (!user) {
+  // throw new AppError("User not found.", 401);
+  // }
 
   // set user data in the request
-  req.user = user;
+  req.user = decoded?.userId;
 
   next();
 };
