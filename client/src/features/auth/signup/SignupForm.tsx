@@ -1,14 +1,28 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { MdOutlinePersonOutline, MdVisibility } from "react-icons/md";
+import { MdOutlinePersonOutline, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { MdAlternateEmail } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
+import { useRegister } from "@/features/auth/services/auth.api";
 
 const SignupForm = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const mutation = useRegister();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate({ username, email, password });
+  };
+
   return (
     <div className="w-full md:w-1/2 bg-surface-dim p-8 md:p-16 flex flex-col justify-center">
       <div className="max-w-md mx-auto w-full">
@@ -20,27 +34,9 @@ const SignupForm = () => {
             Join the community and start chatting today.
           </p>
         </header>
-        <form className="space-y-6" id="registrationForm">
+        <form className="space-y-6" id="registrationForm" onSubmit={handleSubmit}>
           <FieldGroup>
             <div className="grid grid-cols-2 gap-4">
-              <Field>
-                <FieldLabel
-                  className="text-on-surface-variant ml-1"
-                  htmlFor="fullName"
-                >
-                  Full Name
-                </FieldLabel>
-                <div className="relative">
-                  <MdOutlinePersonOutline className="size-5 absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
-
-                  <Input
-                    className=" input-recessed text-2xl font-semibold pr-4 pl-12 h-12  text-on-surface focus:ring-0 placeholder:text-outline-variant  outline-none "
-                    id="fullName"
-                    placeholder="Enter full Name"
-                  />
-                </div>
-              </Field>
-
               <Field>
                 <FieldLabel
                   className="text-on-surface-variant ml-1"
@@ -49,12 +45,35 @@ const SignupForm = () => {
                   Username
                 </FieldLabel>
                 <div className="relative">
+                  <MdOutlinePersonOutline className="size-5 absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
+
+                  <Input
+                    className=" input-recessed pr-4 pl-12 h-12 text-on-surface focus:ring-0 placeholder:text-outline-variant outline-none "
+                    id="username"
+                    placeholder="Enter Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+              </Field>
+
+              <Field>
+                <FieldLabel
+                  className="text-on-surface-variant ml-1"
+                  htmlFor="email"
+                >
+                  Email
+                </FieldLabel>
+                <div className="relative">
                   <MdAlternateEmail className=" size-5 absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
 
                   <Input
-                    className=" input-recessed text-2xl font-semibold pr-4 pl-12 h-12  text-on-surface focus:ring-0 placeholder:text-outline-variant  outline-none "
-                    id="username"
-                    placeholder="Enter Username"
+                    className=" input-recessed pr-4 pl-12 h-12 text-on-surface focus:ring-0 placeholder:text-outline-variant outline-none "
+                    id="email"
+                    placeholder="Enter Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </Field>
@@ -71,19 +90,26 @@ const SignupForm = () => {
                 <MdLockOutline className="size-5 absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
 
                 <Input
-                  className=" input-recessed text-2xl font-semibold pr-4 pl-12 h-12  text-on-surface focus:ring-0 placeholder:text-outline-variant  outline-none "
+                  className=" input-recessed pr-4 pl-12 h-12 text-on-surface focus:ring-0 placeholder:text-outline-variant outline-none "
                   id="password"
                   placeholder="Enter Password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <Button
                   type="button"
-                  className="cursor-pointer absolute  right-2 top-1/2 -translate-y-1/2"
+                  className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
                   size="icon-lg"
                   variant="link"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  <MdVisibility className="size-5 text-outline-variant" />
-                  {/* <MdVisibilityOff className="size-5" /> */}
+                  {showPassword ? (
+                    <MdVisibilityOff className="size-5 text-outline-variant" />
+                  ) : (
+                    <MdVisibility className="size-5 text-outline-variant" />
+                  )}
                 </Button>
               </div>
             </Field>
@@ -93,8 +119,9 @@ const SignupForm = () => {
                 className="w-full bg-primary text-on-primary h-12 rounded-xl transition-all duration-300 btn-hover-glow active:scale-[0.98] text-lg font-bold"
                 type="submit"
                 size="lg"
+                disabled={mutation.isPending}
               >
-                Sign Up
+                {mutation.isPending ? "Signing Up..." : "Sign Up"}
               </Button>
             </Field>
           </FieldGroup>
